@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-image: url('../../public/blob-scene-haikei.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+:root {
+  --primary: #ffbe23;
+  --secondary-100: #daa21e;
+  --secondary-200: #946c14;
+  --secondary-300: #523a0a;
+  --secondary-400: #352400;
+}
