@@ -1,24 +1,9 @@
-// import { PrismaClient } from '@prisma/client';
-
-// const prisma = global.prisma ??
-//   new PrismaClient({ log: ['query'] });
-// if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
-
-// export default prisma;
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 
-let prisma: PrismaClient;
-
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient();
-} else {
-  let globalWithPrisma = global as typeof globalThis & {
-    prisma: PrismaClient;
-  };
-  if (!globalWithPrisma.prisma) {
-    globalWithPrisma.prisma = new PrismaClient();
-  }
-  prisma = globalWithPrisma.prisma;
-}
-
+const connectionString = process.env.DATABASE_URL ?? process.env.POSTGRES_PRISMA_URL ?? 'postgresql://localhost:5432/booktrace';
+const adapter = new PrismaPg({ connectionString });
+const prismaGlobal = globalThis as unknown as { prisma?: PrismaClient };
+const prisma = prismaGlobal.prisma ?? new PrismaClient({ adapter });
+if (process.env.NODE_ENV !== 'production') prismaGlobal.prisma = prisma;
 export default prisma;

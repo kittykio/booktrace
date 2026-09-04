@@ -1,0 +1,11 @@
+CREATE TYPE "ReadingStatus" AS ENUM ('WANT_TO_READ', 'READING', 'READ', 'PAUSED', 'DNF');
+CREATE TABLE "User" ("id" TEXT NOT NULL, "name" TEXT NOT NULL, "email" TEXT NOT NULL, "passwordHash" TEXT NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMP(3) NOT NULL, CONSTRAINT "User_pkey" PRIMARY KEY ("id"));
+CREATE TABLE "Review" ("id" TEXT NOT NULL, "bookId" TEXT NOT NULL, "title" TEXT NOT NULL, "author" TEXT NOT NULL, "price" TEXT NOT NULL DEFAULT '', "publisher" TEXT NOT NULL DEFAULT '', "published" TEXT NOT NULL DEFAULT '', "image" TEXT NOT NULL, "status" "ReadingStatus" NOT NULL DEFAULT 'WANT_TO_READ', "rating" INTEGER, "tags" TEXT[] DEFAULT ARRAY[]::TEXT[], "favorite" BOOLEAN NOT NULL DEFAULT false, "startedAt" TIMESTAMP(3), "finishedAt" TIMESTAMP(3), "memo" TEXT NOT NULL DEFAULT '', "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMP(3) NOT NULL, "userId" TEXT NOT NULL, CONSTRAINT "Review_pkey" PRIMARY KEY ("id"));
+CREATE TABLE "ReadingGoal" ("id" TEXT NOT NULL, "year" INTEGER NOT NULL, "target" INTEGER NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMP(3) NOT NULL, "userId" TEXT NOT NULL, CONSTRAINT "ReadingGoal_pkey" PRIMARY KEY ("id"));
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE INDEX "Review_userId_status_idx" ON "Review"("userId", "status");
+CREATE INDEX "Review_userId_favorite_idx" ON "Review"("userId", "favorite");
+CREATE UNIQUE INDEX "Review_userId_bookId_key" ON "Review"("userId", "bookId");
+CREATE UNIQUE INDEX "ReadingGoal_userId_year_key" ON "ReadingGoal"("userId", "year");
+ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "ReadingGoal" ADD CONSTRAINT "ReadingGoal_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

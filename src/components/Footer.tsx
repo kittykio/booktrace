@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <div className="flex justify-center items-center gap-2">
-      ©️ 2024<span className="font-notable tracking-widest mb-1">Book Log</span>
-    </div>
+    <footer className="mt-12 flex items-center justify-between border-t border-ink/10 py-6 text-xs font-bold uppercase tracking-[.16em] text-ink-muted">
+      <span>© 2026 Kitty Kio</span><span>Read with intention</span>
+    </footer>
   );
 }

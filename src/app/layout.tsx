@@ -1,26 +1,38 @@
 import './globals.css';
-import { Notable, Sen } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
-const notable = Notable({ weight: '400', subsets: ['latin'], variable: '--font-notable' });
-const sen = Sen({ weight: '400', subsets: ['latin'] });
+import { auth } from '@/auth';
 
 export const metadata = {
-  title: 'Book Log',
-  description:
-    'An app for bookaholics to keep track of the books you have read and also take notes',
+  metadataBase: new URL('https://kiki-booktrace.vercel.app'),
+  applicationName: 'Booktrace',
+  title: { default: 'Booktrace', template: '%s · Booktrace' },
+  description: 'Keep a personal history of the books you read, with reviews, ratings, notes, and reading goals.',
+  keywords: ['reading tracker', 'book reviews', 'reading journal', 'personal library'],
+  icons: { icon: '/icon.svg' },
+  openGraph: {
+    title: 'Booktrace',
+    description: 'Keep a personal history of the books you read, with reviews, ratings, notes, and reading goals.',
+    url: '/',
+    siteName: 'Booktrace',
+    type: 'website',
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${sen.className} ${notable.variable} flex flex-col w-full min-h-screen max-h-[100%] max-w-[100%] p-2 sm:w-[65%] sm:mx-auto text-white caret-transparent`}
+        suppressHydrationWarning
+        className="min-h-screen text-ink"
       >
-        <Header />
-        <main className="flex-grow">{children}</main>
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:bg-white focus:text-black focus:p-3">Skip to content</a>
+        <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 sm:px-8">
+        <Header user={session?.user} />
+        <main id="main" className="flex-grow" tabIndex={-1}>{children}</main>
         <Footer />
+        </div>
       </body>
     </html>
   );

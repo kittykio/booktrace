@@ -5,6 +5,9 @@ const nextConfig = {
       {
         hostname: 'books.google.com',
       },
+      {
+        hostname: 'covers.openlibrary.org',
+      },
     ],
   },
 };

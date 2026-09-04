@@ -11,6 +11,10 @@ const config: Config = {
     extend: {
       colors: {
         primary: 'var(--primary)',
+        ink: 'var(--ink)',
+        'ink-muted': 'var(--ink-muted)',
+        paper: 'var(--paper)',
+        coral: 'var(--coral)',
         'secondary-100': 'var(--secondary-100)',
         'secondary-200': 'var(--secondary-200)',
         'secondary-300': 'var(--secondary-300)',

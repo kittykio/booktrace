@@ -5,25 +5,63 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// datasource db {
-//   provider = "sqlite"
-//   url      = env("DATABASE_URL")
-// }
-
 datasource db {
-  provider          = "postgresql"
-  url               = env("POSTGRES_PRISMA_URL")
-  directUrl         = env("POSTGRES_URL_NON_POOLING")
+  provider = "postgresql"
 }
 
-model reviews {
-  id        String    @id
-  title     String
-  author    String
-  price     String
-  publisher String
-  published String
-  image     String
-  read      DateTime  @default(now())
-  memo      String
+enum ReadingStatus {
+  WANT_TO_READ
+  READING
+  READ
+  PAUSED
+  DNF
+}
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  reviews      Review[]
+  goals        ReadingGoal[]
+}
+
+model Review {
+  id         String        @id @default(cuid())
+  bookId     String
+  title      String
+  author     String
+  price      String        @default("")
+  publisher  String        @default("")
+  published  String        @default("")
+  image      String
+  status     ReadingStatus @default(WANT_TO_READ)
+  rating     Int?
+  tags       String[]      @default([])
+  favorite   Boolean       @default(false)
+  startedAt  DateTime?
+  finishedAt DateTime?
+  memo       String        @default("")
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  userId     String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+  @@index([userId, status])
+  @@index([userId, favorite])
+}
+
+model ReadingGoal {
+  id        String   @id @default(cuid())
+  year      Int
+  target    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, year])
 }

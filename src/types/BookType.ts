@@ -8,6 +8,12 @@ export type BookType = {
   image: string;
   read?: Date;
   memo?: string;
+  status?: 'WANT_TO_READ' | 'READING' | 'READ' | 'PAUSED' | 'DNF';
+  rating?: number | null;
+  tags?: string[];
+  favorite?: boolean;
+  startedAt?: Date | null;
+  finishedAt?: Date | null;
 };
 
 export interface BookData {

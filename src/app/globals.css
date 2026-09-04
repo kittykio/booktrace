@@ -3,15 +3,40 @@
 @tailwind utilities;
 
 body {
-  background-image: url('../../public/blob-scene-haikei.svg');
-  background-size: cover;
-  background-repeat: no-repeat;
+  background:
+    radial-gradient(circle at 8% 4%, rgb(178 112 65 / .16), transparent 27rem),
+    radial-gradient(circle at 92% 20%, rgb(119 78 55 / .12), transparent 30rem),
+    var(--paper);
 }
 
+@layer base {
+  body { color: var(--ink); caret-color: auto; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  *:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+  label { display: flex; flex-direction: column; gap: .4rem; font-weight: 700; }
+  input:not([type='checkbox']), select, textarea { width: 100%; border: 1px solid rgb(72 45 32 / .2); border-radius: .75rem; background: #fffaf1; color: var(--ink); padding: .75rem .85rem; font-weight: 400; }
+  button:disabled { cursor: wait; opacity: .65; }
+}
+
+@layer components {
+  .card { border: 1px solid rgb(72 45 32 / .11); border-radius: 1.25rem; background: rgb(255 250 241 / .88); padding: 1.5rem; box-shadow: 0 16px 45px rgb(72 45 32 / .09); backdrop-filter: blur(12px); }
+  .button { border-radius: .75rem; background: var(--ink); padding: .75rem 1.1rem; font-weight: 750; color: var(--paper); transition: transform .2s, background .2s; }
+  .button:hover { background: #65402e; transform: translateY(-1px); }
+  .button-secondary { border: 1px solid rgb(72 45 32 / .25); border-radius: .75rem; padding: .75rem 1.1rem; color: var(--ink); }
+  .pill { border: 1px solid rgb(72 45 32 / .16); border-radius: 999px; padding: .38rem .75rem; text-transform: none; color: var(--ink-muted); }
+  .pill-active { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+  .hint { color: var(--ink-muted); font-size: .8rem; font-weight: 400; }
+}
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+
 :root {
-  --primary: #ffbe23;
-  --secondary-100: #daa21e;
-  --secondary-200: #946c14;
-  --secondary-300: #523a0a;
-  --secondary-400: #352400;
+  --paper: #f4ead8;
+  --ink: #482d20;
+  --ink-muted: #806957;
+  --coral: #ad6338;
+  --primary: #ad6338;
+  --secondary-100: #ad6338;
+  --secondary-200: #824725;
+  --secondary-300: #65402e;
+  --secondary-400: #ead8c0;
 }

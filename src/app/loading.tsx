@@ -1,0 +1,1 @@
+export default function Loading() { return <div aria-label="Loading your library" role="status" className="space-y-4 pt-6">{[1,2,3].map((item) => <div key={item} className="h-44 animate-pulse rounded-2xl bg-ink/5" />)}<span className="sr-only">Loading…</span></div>; }

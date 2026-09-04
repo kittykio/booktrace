@@ -1,0 +1,1 @@
+import Link from 'next/link'; export default function NotFound() { return <section className="card py-16 text-center"><h1 className="text-3xl font-bold">Page not found</h1><p className="my-3">We could not find that page or book.</p><Link className="button inline-block" href="/">Back to library</Link></section>; }
